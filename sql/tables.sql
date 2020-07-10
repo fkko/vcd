@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS vc_list;
+
+CREATE TABLE vc_list(
+    id SERIAL PRIMARY KEY,
+    first VARCHAR(255) NOT NULL,
+    last VARCHAR(255) NOT NULL,
+    fund VARCHAR(255) NOT NULL,
+    position VARCHAR(255) NOT NULL,
+    twitter VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
