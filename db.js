@@ -24,3 +24,19 @@ module.exports.getVC = (id) => {
     [id]
     );
 };
+
+module.exports.insertTweet = (user, text, time, link) => {
+    return db.query(`
+        INSERT INTO tweets (username, tweet_text, created_at, link)
+        VALUES ($1,$2,$3,$4)
+        ON CONFLICT DO NOTHING`,
+    [user, text, time, link]);
+};
+
+module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
+    return db.query(`
+        SELECT * FROM tweets
+        WHERE CHARINDEX($1, tweet_text) > 0
+        AND created_at BETWEEN $2 AND $2`,
+    [keyword, startdate, enddate]);
+};

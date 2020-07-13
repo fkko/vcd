@@ -4,8 +4,11 @@ const compression = require('compression');
 const Twitter = require("twitter");
 const db = require("./db.js");
 const tweets = require("./tweets");
+var cron = require("node-cron");
 
-
+app.use(compression());
+app.use(express.json());
+app.use(express.static("public"));
 
 app.use(compression());
 
@@ -33,6 +36,34 @@ app.get("/vc/all", async function (req,res) {
     } catch (err) {
         console.log("Error in get all VCs:", err);
     }
+});
+
+// --> ON DEMAND API REQUEST FOR ALL USERS OF LIST
+app.get("/daily", async function (req,res) {
+    try {
+        let { rows } = await db.getAllVCs();
+        tweets.insertTweets(rows);
+    } catch (err) {
+        console.log("Error in daily insert:", err);
+    }
+});
+
+// --> SCHEDULED API REQUEST FOR ALL USERS OF LIST EVERY 24h ---> will run every day at 12:00 AM
+cron.schedule("0 0 0 * * *", async function () {
+    try {
+        let { rows } = await db.getAllVCs();
+        tweets.insertTweets(rows);
+        console.log("unsert success");
+    } catch (err) {
+        console.log("Error in daily insert:", err);
+    }
+});
+
+app.post("/search", async (req,res) => {
+    console.log("req.body", req.body);
+    // ADJUST DATE FORMAT!!
+    let { rows } = await db.getSelectedTweets(req.body.keyword, req.body.startdate, req.body.enddate);
+
 });
 
 

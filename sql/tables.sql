@@ -1,4 +1,5 @@
-DROP TABLE IF EXISTS vc_list;
+-- DROP TABLE IF EXISTS vc_list;
+DROP TABLE IF EXISTS tweets;
 
 CREATE TABLE vc_list(
     id SERIAL PRIMARY KEY,
@@ -8,4 +9,12 @@ CREATE TABLE vc_list(
     position VARCHAR(255) NOT NULL,
     twitter VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tweets(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    tweet_text VARCHAR(300) NOT NULL,
+    created_at TIMESTAMP,
+    link VARCHAR(300) NOT NULL UNIQUE
 );
