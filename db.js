@@ -35,8 +35,20 @@ module.exports.insertTweet = (user, text, time, link) => {
 
 module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
     return db.query(`
-        SELECT * FROM tweets
-        WHERE CHARINDEX($1, tweet_text) > 0
-        AND created_at BETWEEN $2 AND $2`,
-    [keyword, startdate, enddate]);
+        SELECT username, COUNT(tweet_text) AS count FROM tweets
+        WHERE lower(tweet_text) LIKE lower($1)
+        AND DATE(created_at) BETWEEN $2 AND $3
+        GROUP BY username`,
+    [`%${keyword}%`, startdate, enddate]);
 };
+
+// module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
+//     return db.query(
+//         `
+//         SELECT username, COUNT(tweet_text) AS count FROM tweets
+//         WHERE lower(tweet_text) LIKE lower($1)
+//         AND DATE(created_at) BETWEEN $2 AND $3
+//         GROUP BY username`,
+//         [`%${keyword}%`, startdate, enddate]
+//     );
+// };

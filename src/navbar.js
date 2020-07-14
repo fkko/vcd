@@ -2,15 +2,14 @@ import React, { useEffect, useRef, useClass, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { getChartData } from "./actions";
 
-const Container = styled.div`
-`;
-
+const Container = styled.div``;
 const Input =styled.input``;
 
 export default function Navbar() {
     const elemRef = useRef();
+    const dispatch = useDispatch();
 
     const [values, setValues] = useState({});
     
@@ -25,16 +24,18 @@ export default function Navbar() {
         console.log("Navbar -> values", values);
     };
 
-    const submit = async (e) => {
-        e.preventDefault;
-        axios.post("/search",values).then(({data}) => {
-            if (data.success) {
-                console.log("data successfull submitted");
-            } else {
-                console.log("error:");
-            }
-        });
-    };
+    // const submit = async (e) => {
+    //     e.preventDefault;
+    //     axios.post("/search",values).then(({data}) => {
+    //         if (data.success) {
+    //             console.log("data successfull submitted");
+    //         } else {
+    //             console.log("error:");
+    //         }
+    //     });
+    // };
+
+    
 
     return (
         <Container>
@@ -66,7 +67,7 @@ export default function Navbar() {
                 placeholder="Enter End date"
                 // ref={elemRef}
             ></Input>
-            <button onClick={submit}>Search</button>
+            <button onClick={() => dispatch(getChartData(values))}>Search</button>
         </Container>
     );
 }

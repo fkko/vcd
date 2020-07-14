@@ -6,6 +6,7 @@ const db = require("./db.js");
 const tweets = require("./tweets");
 var cron = require("node-cron");
 
+
 app.use(compression());
 app.use(express.json());
 app.use(express.static("public"));
@@ -62,8 +63,30 @@ cron.schedule("0 0 0 * * *", async function () {
 app.post("/search", async (req,res) => {
     console.log("req.body", req.body);
     // ADJUST DATE FORMAT!!
-    let { rows } = await db.getSelectedTweets(req.body.keyword, req.body.startdate, req.body.enddate);
+    try {
+        let { rows } = await db.getSelectedTweets(req.body.keyword, req.body.startdate, req.body.enddate);
+        console.log("rows", rows);
+        let xArray = [];
+        let yArray = [];
+        
+        for (let i=0; i< rows.length; i++) {
+            xArray.push(rows[i].count);
+            yArray.push(rows[i].username);
+        }
+        console.log("xArray in index.js ", xArray);
+        console.log("yArray in index.js ", yArray);
 
+        res.json({
+            x: xArray, 
+            y: yArray
+        });
+        
+    } catch (err) {
+        console.log("err in /search", err);
+    }
+
+    
+    
 });
 
 

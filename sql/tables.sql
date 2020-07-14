@@ -1,5 +1,5 @@
 -- DROP TABLE IF EXISTS vc_list;
-DROP TABLE IF EXISTS tweets;
+-- DROP TABLE IF EXISTS tweets;
 
 CREATE TABLE vc_list(
     id SERIAL PRIMARY KEY,
