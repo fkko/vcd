@@ -35,10 +35,13 @@ module.exports.insertTweet = (user, text, time, link) => {
 
 module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
     return db.query(`
-        SELECT username, COUNT(tweet_text) AS count FROM tweets
-        WHERE lower(tweet_text) LIKE lower($1)
-        AND DATE(created_at) BETWEEN $2 AND $3
-        GROUP BY username`,
+        SELECT CONCAT(vcl.first,' ',vcl.last) as name, COUNT(t.tweet_text) AS count 
+        FROM tweets AS t
+        LEFT JOIN vc_list as vcl
+        ON t.username = vcl.twitter
+        WHERE lower(t.tweet_text) LIKE lower($1)
+        AND DATE(t.created_at) BETWEEN $2 AND $3
+        GROUP BY name`,
     [`%${keyword}%`, startdate, enddate]);
 };
 

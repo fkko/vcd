@@ -24,11 +24,47 @@ export default function MainChart() {
             x: xaxis,
             y: yaxis,
             type: "bar",
-            marker: { color: "#ab63fa" },
             name: "Bar",
             orientation: "h",
+            text: xaxis.map(String),
+            textposition: "auto",
+            marker: {
+                color: "rgb(158,202,225)",
+                opacity: 0.6,
+                line: {
+                    color: "rgb(8,48,107)",
+                    width: 1.5,
+                },
+            },
         },
     ];
+
+    let layout = {
+        xaxis: {
+            title:
+                "Number of tweets per VC in which keyword occurs in time range",
+            titlefont: {
+                size: 16,
+                color: "rgb(107, 107, 107)",
+            },
+            tickfont: {
+                size: 14,
+                color: "rgb(107, 107, 107)",
+            },
+        },
+        yaxis: {
+            tickfont: {
+                size: 14,
+                color: "rgb(107, 107, 107)",
+            },
+        },
+        plotBackground: "#f3f6fa",
+        margin: { t: 100, r: 100, l: 150, b: 50 },
+    };
+
+    let config = {
+        displayModeBar: false
+    };
     // const [chartParameters, dispatchChartParameters] = useState(data);
 
     // const [chartParameters, dispatchChartParameters] = useReducer({
@@ -51,9 +87,9 @@ export default function MainChart() {
     return (
         <Plot
             data={chartData}
-            // layout={chartParameters.layout}
+            layout={layout}
             // frames={this.state.frames}
-            // config={this.state.config}
+            config={config}
             // onInitialized={(figure) => this.setState(figure)}
             // onUpdate={(figure) => this.setState(figure)}
         />

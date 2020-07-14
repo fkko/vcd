@@ -71,7 +71,8 @@ app.post("/search", async (req,res) => {
         
         for (let i=0; i< rows.length; i++) {
             xArray.push(rows[i].count);
-            yArray.push(rows[i].username);
+            yArray.push(rows[i].name);
+            // CHANGE TO NAME INSTEAD OF USERNAME
         }
         console.log("xArray in index.js ", xArray);
         console.log("yArray in index.js ", yArray);
