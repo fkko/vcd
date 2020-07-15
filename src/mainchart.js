@@ -29,7 +29,7 @@ export default function MainChart() {
             text: xaxis.map(String),
             textposition: "auto",
             marker: {
-                color: "rgb(158,202,225)",
+                color: "rgb(230, 30, 77)",
                 opacity: 0.6,
                 line: {
                     color: "rgb(8,48,107)",
@@ -85,13 +85,16 @@ export default function MainChart() {
     // });
 
     return (
-        <Plot
-            data={chartData}
-            layout={layout}
-            // frames={this.state.frames}
-            config={config}
-            // onInitialized={(figure) => this.setState(figure)}
-            // onUpdate={(figure) => this.setState(figure)}
-        />
+        <div>
+            <Plot
+                data={chartData}
+                layout={layout}
+                // frames={this.state.frames}
+                config={config}
+                // onInitialized={(figure) => this.setState(figure)}
+                // onUpdate={(figure) => this.setState(figure)}
+            />
+            
+        </div>
     );
 }

@@ -41,7 +41,8 @@ module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
         ON t.username = vcl.twitter
         WHERE lower(t.tweet_text) LIKE lower($1)
         AND DATE(t.created_at) BETWEEN $2 AND $3
-        GROUP BY name`,
+        GROUP BY name
+        ORDER BY count DESC`,
     [`%${keyword}%`, startdate, enddate]);
 };
 
