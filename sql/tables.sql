@@ -1,5 +1,6 @@
-DROP TABLE IF EXISTS vc_list;
 DROP TABLE IF EXISTS tweets;
+DROP TABLE IF EXISTS vc_list;
+
 
 CREATE TABLE vc_list(
     id SERIAL PRIMARY KEY,
@@ -8,6 +9,8 @@ CREATE TABLE vc_list(
     fund VARCHAR(255) NOT NULL,
     position VARCHAR(255) NOT NULL,
     twitter VARCHAR(255) UNIQUE,
+    linkedin VARCHAR(255),
+    image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

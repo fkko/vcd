@@ -1,11 +1,12 @@
 import React from "react";
 import axios from "./axios";
 import MainChart from "./mainchart";
+import Profile from "./profile";
 import Navbar from "./navbar";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Body = styled.body`
+const Body = styled.div`
     font-family:  Roboto, Helvetica Neue, sans-serif;
     font-size: 14px;
     line-height: 1.43;
@@ -86,8 +87,13 @@ const DirectoryButton = styled.button`
     ) !important;
 `;
 
-const NavbarContainer = styled.div`
+const NavbarContainerMain = styled.div`
     padding-left: 40px !important;
+    padding-right: 40px !important;
+`;
+
+const NavbarContainerProfile = styled.div`
+    padding-left: 300px !important;
     padding-right: 40px !important;
 `;
 
@@ -101,7 +107,7 @@ export default function App() {
                     <LogoContainer>
                         <Logo>VC LEDGER</Logo>
                         <SubLogo>
-                            The open source venture capital access
+                            What are VCs talking about on Twitter?
                         </SubLogo>
                     </LogoContainer>
                     <DirectoryButton>Full Directory</DirectoryButton>
@@ -109,10 +115,21 @@ export default function App() {
             </Header>
 
             <BrowserRouter>
-                <NavbarContainer>
-                    <Navbar />
-                </NavbarContainer>
-                <MainChart />
+                <Route
+                    path="/" 
+                >
+                    <NavbarContainerMain>
+                        <Navbar />
+                    </NavbarContainerMain>
+                    <MainChart />
+                </Route>
+                <Route
+                    path="/user/:id"
+                >
+                    <NavbarContainerProfile>
+                        <Profile />
+                    </NavbarContainerProfile>
+                </Route>
             </BrowserRouter>
         </Body>
     );

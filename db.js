@@ -35,24 +35,26 @@ module.exports.insertTweet = (user, text, time, link) => {
 
 module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
     return db.query(`
-        SELECT CONCAT(vcl.first,' ',vcl.last) as name, COUNT(t.tweet_text) AS count 
+        SELECT CONCAT(vcl.first,' ',vcl.last) as name, vcl.image_url, vcl.fund, vcl.id AS user_id, COUNT(t.tweet_text) AS count
         FROM tweets AS t
         LEFT JOIN vc_list as vcl
         ON t.username = vcl.twitter
         WHERE lower(t.tweet_text) LIKE lower($1)
         AND DATE(t.created_at) BETWEEN $2 AND $3
-        GROUP BY name
+        GROUP BY name, vcl.image_url, vcl.fund, user_id
         ORDER BY count DESC`,
     [`%${keyword}%`, startdate, enddate]);
 };
 
-// module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
-//     return db.query(
-//         `
-//         SELECT username, COUNT(tweet_text) AS count FROM tweets
-//         WHERE lower(tweet_text) LIKE lower($1)
-//         AND DATE(created_at) BETWEEN $2 AND $3
-//         GROUP BY username`,
-//         [`%${keyword}%`, startdate, enddate]
-//     );
-// };
+module.exports.getSelectedTweetsPerUser = (keyword, id, start, end) => {
+    return db.query(`
+        SELECT t.username, t.created_at, t.link 
+        FROM tweets AS t
+        LEFT JOIN vc_list as vcl
+        ON t.username = vcl.twitter
+        WHERE lower(t.tweet_text) LIKE lower($1)
+        AND DATE(t.created_at) BETWEEN $3 AND $4
+        AND vcl.id = $2
+        ORDER BY t.created_at DESC`,
+    [keyword, id, start, end]);
+};

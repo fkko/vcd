@@ -3,8 +3,19 @@ export function reducer(state = {}, action) {
         // ? NEED TO DO THIS?
         state = Object.assign({}, state, {
             chartdata: action.chartdata,
+            currentsearch: action.currentsearch
         });
     } 
+
+    if (action.type == "GET_TWEETS") {
+        state = {
+            ...state,
+            tweetdata: {
+                ...state.tweetdata,
+                tweetdata: state.tweetdata
+            }
+        };
+    }
     
     return state;
 }

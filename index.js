@@ -60,37 +60,74 @@ cron.schedule("0 0 0 * * *", async function () {
     }
 });
 
-app.post("/search", async (req,res) => {
+// app.post("/search", async (req,res) => {
+//     console.log("req.body", req.body);
+//     // ADJUST DATE FORMAT!!
+//     try {
+//         let { rows } = await db.getSelectedTweets(req.body.keyword, req.body.startdate, req.body.enddate);
+//         console.log("rows", rows);
+//         let xArray = [];
+//         let yArray = [];
+        
+//         for (let i=0; i< rows.length; i++) {
+//             xArray.push(rows[i].count);
+//             yArray.push(rows[i].name);
+//             // CHANGE TO NAME INSTEAD OF USERNAME
+//         }
+//         console.log("xArray in index.js ", xArray);
+//         console.log("yArray in index.js ", yArray);
+
+//         res.json({
+//             x: xArray, 
+//             y: yArray
+//         });
+        
+//     } catch (err) {
+//         console.log("err in /search", err);
+//     }
+// });
+
+app.post("/search", async (req, res) => {
     console.log("req.body", req.body);
     // ADJUST DATE FORMAT!!
     try {
-        let { rows } = await db.getSelectedTweets(req.body.keyword, req.body.startdate, req.body.enddate);
-        console.log("rows", rows);
+        let { rows } = await db.getSelectedTweets(
+            req.body.keyword,
+            req.body.startdate,
+            req.body.enddate
+        );
+        // console.log("rows", rows);
         let xArray = [];
         let yArray = [];
-        
-        for (let i=0; i< rows.length; i++) {
+
+        for (let i = 0; i < rows.length; i++) {
             xArray.push(rows[i].count);
             yArray.push(rows[i].name);
-            // CHANGE TO NAME INSTEAD OF USERNAME
         }
-        console.log("xArray in index.js ", xArray);
-        console.log("yArray in index.js ", yArray);
-
-        res.json({
-            x: xArray, 
-            y: yArray
-        });
         
+
+        res.json({rows});
     } catch (err) {
         console.log("err in /search", err);
     }
-
-    
-    
 });
 
+app.post("/user/:id", async (req,res) => {
+    // let keyword = req.query.q;
+    // let id = req.query.id;
+    // let start = req.query.start;
+    // let end = req.query.end;
+    console.log("req.params.id", req.params.id);
+    console.log("req.body in /user/", req.body);
 
+    try {
+        let { rows } = await db.getSelectedTweetsPerUser(req.body.keyword, req.params.id, req.body.startdate, req.body.enddate);
+        console.log("rows", rows);
+        res.json({rows});
+    } catch (err) {
+        console.log("ERROR in /user/", err);
+    }
+});
 
 
 app.get("/test", (req,res) => {

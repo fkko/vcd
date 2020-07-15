@@ -2,9 +2,78 @@ import React, { useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Plot from "react-plotly.js";
+import { getTweets } from "./actions";
 
+const ChartContainer = styled.div`
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+`;
+
+const Barchart = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex-wrap: no-wrap;
+    overflow-x: scroll;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 10px;
+    
+`;
+
+const Bar = styled.div`
+    background-color: rgb(230, 30, 77);
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    font-size: 1.5rem;
+    padding-right: 10px;
+    border-radius: 0px 12px 12px 0px;
+`;
+
+const ChartElement = styled.div`
+    display: flex;
+    flex-direction: flow;
+    width: 100%;
+    margin-bottom: 5px;
+    border-radius: 12px;
+`;
+
+const Count = styled.div``;
+
+const Profile = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(221, 221, 221);
+    border-radius: 12px 0px 0px 12px;
+`;
+
+const Fund = styled.div`
+    color: white;
+    font-size: 0.75rem;
+`;
+
+const ScaledImage = styled.img`
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 5px;
+`;
+
+const Name = styled.div`
+    padding: 2px;
+`;
 export default function MainChart() {
+    const dispatch = useDispatch();
+
     const xaxis = useSelector((state) => {
         return state.chartdata && state.chartdata.data.x;
     });
@@ -15,86 +84,75 @@ export default function MainChart() {
     });
     console.log("MainChart -> yaxis", yaxis);
 
-    if (!xaxis && !yaxis) {
+    const dataObject = useSelector((state) => {
+        return state.chartdata && state.chartdata.data.rows;
+    });
+    
+    const requestData = useSelector((state) => {
+        console.log("state:", state);
+        return state && state.currentsearch;
+    });
+        
+    if (!dataObject) {
         return null;
+    } else {
+        for (let i = 0; i < dataObject.length; i++) {
+            dataObject[i].percentage =
+                (dataObject[i].count / dataObject[0].count)*100 + "%";
+        }
+        console.log("keyword -> keyword", requestData);
     }
 
-    let chartData = [
-        {
-            x: xaxis,
-            y: yaxis,
-            type: "bar",
-            name: "Bar",
-            orientation: "h",
-            text: xaxis.map(String),
-            textposition: "auto",
-            marker: {
-                color: "rgb(230, 30, 77)",
-                opacity: 0.6,
-                line: {
-                    color: "rgb(8,48,107)",
-                    width: 1.5,
-                },
-            },
-        },
-    ];
+    
 
-    let layout = {
-        xaxis: {
-            title:
-                "Number of tweets per VC in which keyword occurs in time range",
-            titlefont: {
-                size: 16,
-                color: "rgb(107, 107, 107)",
-            },
-            tickfont: {
-                size: 14,
-                color: "rgb(107, 107, 107)",
-            },
-        },
-        yaxis: {
-            tickfont: {
-                size: 14,
-                color: "rgb(107, 107, 107)",
-            },
-        },
-        plotBackground: "#f3f6fa",
-        margin: { t: 100, r: 100, l: 150, b: 50 },
-    };
-
-    let config = {
-        displayModeBar: false
-    };
-    // const [chartParameters, dispatchChartParameters] = useState(data);
-
-    // const [chartParameters, dispatchChartParameters] = useReducer({
-    //     data: [
-    //         {
-    //             x: xaxis,
-    //             y: yaxis,
-    //             type: "bar",
-    //             marker: { color: "#ab63fa" },
-    //             name: "Bar",
-    //             orientation: "h",
-    //         },
-    //     ],
-    //     layout: {
-    //         plotBackground: "#f3f6fa",
-    //         margin: { t: 0, r: 0, l: 20, b: 30 },
-    //     },
-    // });
+    console.log("dataObject########", dataObject);
 
     return (
-        <div>
-            <Plot
-                data={chartData}
-                layout={layout}
-                // frames={this.state.frames}
-                config={config}
-                // onInitialized={(figure) => this.setState(figure)}
-                // onUpdate={(figure) => this.setState(figure)}
-            />
-            
-        </div>
+        <ChartContainer>
+            <Barchart>
+                {dataObject &&
+                    dataObject.map((element, idx) => (
+                        <ChartElement key={idx}>
+                            <Link
+                                to={`/user/${element.user_id}`}
+                                onClick={() => dispatch(getTweets(element.user_id, requestData))}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "black",
+                                    flexGrow: 1,
+                                }}
+                            >
+                                <Profile>
+                                    <ScaledImage src={element.image_url} />
+                                    <Name>{element.name}</Name>
+                                    <Fund>{element.fund}</Fund>
+                                </Profile>
+                            </Link>
+                            <Link
+                                to={`/user/?id=${element.user_id}&q=${requestData.keyword}&start=${requestData.startdate}&end=${requestData.enddate}`}
+                                onClick={() => dispatch(getTweets(requestData))}
+                                style={{
+                                    textDecoration: "none",
+                                    color: "black",
+                                    flexGrow: 7,
+                                    display: "flex",
+                                    alignItems: "center",
+                                }}
+                            >
+                                <Bar
+                                    style={{
+                                        width: element.percentage,
+                                    }}
+                                >
+                                    <Count>{element.count}</Count>
+                                </Bar>
+                            </Link>
+                        </ChartElement>
+                    ))}
+            </Barchart>
+        </ChartContainer>
     );
 }
+
+
+
