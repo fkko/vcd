@@ -93,7 +93,7 @@ const NavbarContainerMain = styled.div`
 `;
 
 const NavbarContainerProfile = styled.div`
-    padding-left: 300px !important;
+    padding-left: 40px !important;
     padding-right: 40px !important;
 `;
 
@@ -116,7 +116,7 @@ export default function App() {
 
             <BrowserRouter>
                 <Route
-                    path="/" 
+                    path="/main" 
                 >
                     <NavbarContainerMain>
                         <Navbar />

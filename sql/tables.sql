@@ -16,8 +16,10 @@ CREATE TABLE vc_list(
 
 CREATE TABLE tweets(
     id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL REFERENCES vc_list(twitter),
+    username VARCHAR(255) REFERENCES vc_list(twitter),
     tweet_text VARCHAR(300) NOT NULL,
     created_at TIMESTAMP,
     link VARCHAR(300) NOT NULL UNIQUE
 );
+
+--  PREVIOUS: NOT NULL IN username

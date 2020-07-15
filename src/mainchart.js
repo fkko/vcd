@@ -74,15 +74,15 @@ const Name = styled.div`
 export default function MainChart() {
     const dispatch = useDispatch();
 
-    const xaxis = useSelector((state) => {
-        return state.chartdata && state.chartdata.data.x;
-    });
-    console.log("MainChart -> xaxis", xaxis);
+    // const xaxis = useSelector((state) => {
+    //     return state.chartdata && state.chartdata.data.x;
+    // });
+    // console.log("MainChart -> xaxis", xaxis);
 
-    const yaxis = useSelector((state) => {
-        return state.chartdata && state.chartdata.data.y;
-    });
-    console.log("MainChart -> yaxis", yaxis);
+    // const yaxis = useSelector((state) => {
+    //     return state.chartdata && state.chartdata.data.y;
+    // });
+    // console.log("MainChart -> yaxis", yaxis);
 
     const dataObject = useSelector((state) => {
         return state.chartdata && state.chartdata.data.rows;

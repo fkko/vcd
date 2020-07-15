@@ -122,7 +122,7 @@ app.post("/user/:id", async (req,res) => {
 
     try {
         let { rows } = await db.getSelectedTweetsPerUser(req.body.keyword, req.params.id, req.body.startdate, req.body.enddate);
-        console.log("rows", rows);
+        console.log("rows:::::::", rows);
         res.json({rows});
     } catch (err) {
         console.log("ERROR in /user/", err);

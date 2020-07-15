@@ -17,10 +17,10 @@ export async function getChartData(values) {
 export async function getTweets(id, requestData) {
     try {
         let data = await axios.post(`/user/${id}`, requestData);
-        console.log("data in action: ", data);
+        console.log("data.data.rows in get Tweets action: ", data.data.rows);
         return {
             type: "GET_TWEETS",
-            tweetdata: data,
+            tweetdata: data.data.rows,
             requestdata: requestData
         };
     } catch (err) {

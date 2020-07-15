@@ -12,7 +12,7 @@ export function reducer(state = {}, action) {
             ...state,
             tweetdata: {
                 ...state.tweetdata,
-                tweetdata: state.tweetdata
+                tweetdata: action.tweetdata
             }
         };
     }

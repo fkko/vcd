@@ -48,7 +48,7 @@ module.exports.getSelectedTweets = (keyword, startdate, enddate) => {
 
 module.exports.getSelectedTweetsPerUser = (keyword, id, start, end) => {
     return db.query(`
-        SELECT t.username, t.created_at, t.link 
+        SELECT t.username, t.created_at, t.link, t.created_at, t.tweet_text
         FROM tweets AS t
         LEFT JOIN vc_list as vcl
         ON t.username = vcl.twitter
@@ -56,5 +56,5 @@ module.exports.getSelectedTweetsPerUser = (keyword, id, start, end) => {
         AND DATE(t.created_at) BETWEEN $3 AND $4
         AND vcl.id = $2
         ORDER BY t.created_at DESC`,
-    [keyword, id, start, end]);
+    [`%${keyword}%`, id, start, end]);
 };
