@@ -84,7 +84,7 @@ module.exports.insertTweets = async (list) => {
                         result.data[j].text,
                         result.data[j].created_at,
                         link,
-                        result.data[j].id
+                        result.data[j].id_str
                     );
 
                     // }

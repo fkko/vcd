@@ -13,6 +13,10 @@ export function reducer(state = {}, action) {
             tweetdata: {
                 ...state.tweetdata,
                 tweetdata: action.tweetdata
+            },
+            requestdata: {
+                ...state.requestdata,
+                requestdata: action.requestdata
             }
         };
     }

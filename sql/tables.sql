@@ -19,8 +19,8 @@ CREATE TABLE tweets(
     username VARCHAR(255) REFERENCES vc_list(twitter),
     tweet_text VARCHAR(300) NOT NULL,
     created_at TIMESTAMP,
-    link VARCHAR(300) NOT NULL UNIQUE
-    tweet_id BIGINT
+    link VARCHAR(300) NOT NULL UNIQUE,
+    tweet_id VARCHAR(255)
 );
 
 --  PREVIOUS: NOT NULL IN username
