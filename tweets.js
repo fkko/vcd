@@ -63,30 +63,31 @@ module.exports.insertTweets = async (list) => {
         access_token_secret: ats,
     });
 
+    //CHANGE LATER - BACK TO GET TWEETS DAILY
     
     var currentDate = Date.parse(new Date());
     var formattedCurrentDate = currentDate.toString("dd-MM-yyyy");
     for (let i = 0; i < list.length; i++) {
-        let params = { screen_name: list[i].twitter };
+        let params = { screen_name: list[i].twitter, count: 100 };
         T.get("statuses/user_timeline", params)
             .then(function (result) {
                 for (let j=0; j<result.data.length; j++) {
-                    let tweetDate = Date.parse(result.data[j].created_at);
-                    let formattedTweetDate = tweetDate.toString("dd-MM-yyyy");
-                    // console.log("dates:", formattedCurrentDate, formattedTweetDate);
+                    // let tweetDate = Date.parse(result.data[j].created_at);
+                    // let formattedTweetDate = tweetDate.toString("dd-MM-yyyy");
 
-                    
-                    if (formattedCurrentDate == formattedTweetDate) {
-                        let link = `https://twitter.com/${params.screen_name}/status/${result.data[j].id_str}`;
-                        console.log("link:", link);
-                        db.insertTweet(
-                            params.screen_name,
-                            result.data[j].text,
-                            result.data[j].created_at,
-                            link
-                        );
 
-                    }
+                    // if (formattedCurrentDate == formattedTweetDate) {
+                    let link = `https://twitter.com/${params.screen_name}/status/${result.data[j].id_str}`;
+                    console.log("link:", link);
+                    db.insertTweet(
+                        params.screen_name,
+                        result.data[j].text,
+                        result.data[j].created_at,
+                        link,
+                        result.data[j].id
+                    );
+
+                    // }
                 }
                 
             })

@@ -25,12 +25,14 @@ module.exports.getVC = (id) => {
     );
 };
 
-module.exports.insertTweet = (user, text, time, link) => {
-    return db.query(`
-        INSERT INTO tweets (username, tweet_text, created_at, link)
-        VALUES ($1,$2,$3,$4)
+module.exports.insertTweet = (user, text, time, link, tweet_id) => {
+    return db.query(
+        `
+        INSERT INTO tweets (username, tweet_text, created_at, link, tweet_id)
+        VALUES ($1,$2,$3,$4,$5)
         ON CONFLICT DO NOTHING`,
-    [user, text, time, link]);
+        [user, text, time, link, tweet_id]
+    );
 };
 
 module.exports.getSelectedTweets = (keyword, startdate, enddate) => {

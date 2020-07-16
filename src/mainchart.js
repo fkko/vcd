@@ -48,13 +48,14 @@ const Profile = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgb(221, 221, 221);
+    background-color: white;
+    border: 1px solid rgb(230, 30, 77);
     border-radius: 12px 0px 0px 12px;
 `;
 
 const Fund = styled.div`
-    color: white;
-    font-size: 0.75rem;
+    font-size: 0.6rem;
+    margin-bottom: 2px;
 `;
 
 const ScaledImage = styled.img`
@@ -69,7 +70,7 @@ const ScaledImage = styled.img`
 `;
 
 const Name = styled.div`
-    padding: 2px;
+    
 `;
 export default function MainChart() {
     const dispatch = useDispatch();

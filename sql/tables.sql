@@ -20,6 +20,7 @@ CREATE TABLE tweets(
     tweet_text VARCHAR(300) NOT NULL,
     created_at TIMESTAMP,
     link VARCHAR(300) NOT NULL UNIQUE
+    tweet_id BIGINT
 );
 
 --  PREVIOUS: NOT NULL IN username

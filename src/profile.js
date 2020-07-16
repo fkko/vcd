@@ -24,15 +24,43 @@ const TweetContainer = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     margin-top: 10px;
+    border-bottom: 1px solid rgb(221, 221, 221);
 `;
 
-const Tweet = styled.div``;
+const Tweet = styled.div`
+    border-bottom: 1px solid rgb(221, 221, 221);
+    width: 100%;
+`;
+
+const ExternalLink = styled.div`
+    textDecoration: "none",
+    color: "black"
+`;
+
+const ScaledImage = styled.img`
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    object-fit: cover;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 5px;
+`;
+
+const Fund = styled.div`
+`;
+
+const Name = styled.div``;
+
+const TwitterHandle = styled.div`
+`;
 
 export default function MainChart() {
 
     const links = useSelector((state) => {
         console.log("links -> state.tweetdata", state.tweetdata);
-        return state.tweetdata && state.tweetdata;
+        return state.tweetdata && state.tweetdata.tweetdata;
     });
         
 
@@ -44,32 +72,31 @@ export default function MainChart() {
 
     return (
         <ProfileContainer>
-            <SideBar></SideBar>
+            <SideBar>
+                <ScaledImage />
+                <Name></Name>
+                <Fund></Fund>
+                <TwitterHandle></TwitterHandle>
+            </SideBar>
             <TweetContainer>
                 {links &&
                     links.map((element, idx) => (
-                        <Tweet key={idx}>
-                            <blockquote className="twitter-tweet">
-                                <p lang="en" dir="ltr">
-                                    Hi 👋 RUNNERS WHO DONT WEAR MASKS !!!
-                                    Talking to you! WEAR A MASK because you are
-                                    running past us, sweating, huffing and
-                                    puffing, not making any effort to maintain
-                                    6ft of distance...it’s not safe what you are
-                                    doing...and everyone you pass is secretly
-                                    judging you...mmmmmmkkkk!?
-                                </p>
-                                &mdash; Phillipa Soo (@Phillipasoo){" "}
-                                <a href="https://twitter.com/Phillipasoo/status/1282878425116692481?ref_src=twsrc%5Etfw">
-                                    July 14, 2020
-                                </a>
-                            </blockquote>{" "}
-                            <script
-                                async
-                                src="https://platform.twitter.com/widgets.js"
-                                charset="utf-8"
-                            ></script>
-                        </Tweet>
+                        <ExternalLink key={idx} href={element.link}>
+                            <Tweet>
+                                <blockquote className="twitter-tweet">
+                                    <p lang="en" dir="ltr">
+                                        {element.tweet_text}
+                                    </p>
+                                    &mdash;
+                                    {Date.parse(element.created_at)}
+                                </blockquote>{" "}
+                                <script
+                                    async
+                                    src="https://platform.twitter.com/widgets.js"
+                                    charset="utf-8"
+                                ></script>
+                            </Tweet>
+                        </ExternalLink>
                     ))}
             </TweetContainer>
         </ProfileContainer>
